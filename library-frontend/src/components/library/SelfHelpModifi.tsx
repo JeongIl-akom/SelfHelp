@@ -27,10 +27,7 @@ export default function SelfHelpModifi() {
                 <CardContent>
                     <Chip
                     label="이제 여기에 목록이 뜨는거임">
-                    </Chip>
-                    <Card>
-                        ㅇㅇ?
-                    </Card>                    
+                    </Chip>                                  
                 </CardContent>                
             </CardActionArea>            
         </Stack>
