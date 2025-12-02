@@ -1,0 +1,41 @@
+{% extends "chart/base.html" %}
+
+{% block content %}
+<h2 class="mb-3">환자 목록</h2>
+
+<form method="get" class="row g-2 mb-3">
+  <div class="col-auto">
+    <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="이름 검색">
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-secondary" type="submit">검색</button>
+  </div>
+</form>
+
+<table class="table table-sm table-hover bg-white">
+  <thead>
+    <tr>
+      <th>차트번호</th>
+      <th>이름</th>
+      <th>성별</th>
+      <th>생년월일</th>
+      <th>연락처</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in patients %}
+      <tr onclick='location.href="{% url "chart:patient_detail" p.pk %}"' style="cursor:pointer;">
+        <td>{{ p.chart_no }}</td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.get_gender_display }}</td>
+        <td>{{ p.birth_date }}</td>
+        <td>{{ p.phone }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="5" class="text-center">등록된 환자가 없습니다.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

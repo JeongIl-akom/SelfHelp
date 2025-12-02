@@ -1,0 +1,57 @@
+{% extends "chart/base.html" %}
+
+{% block content %}
+<h2 class="mb-3">자료실</h2>
+
+<form method="get" class="row g-2 mb-3">
+  <div class="col-auto">
+    <select name="category" class="form-select">
+      <option value="">전체 카테고리</option>
+      {% for c in categories %}
+        <option value="{{ c.id }}" {% if selected_category == c.id %}selected{% endif %}>
+          {{ c.name }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="제목 검색">
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-secondary" type="submit">검색</button>
+  </div>
+</form>
+
+<table class="table table-sm table-hover bg-white">
+  <thead>
+    <tr>
+      <th>제목</th>
+      <th>카테고리</th>
+      <th>등록일자</th>
+      <th>다운로드</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for doc in documents %}
+      <tr>
+        <td>{{ doc.title }}</td>
+        <td>{{ doc.category }}</td>
+        <td>{{ doc.created_at|date:"Y-m-d H:i" }}</td>
+        <td>
+          {% if doc.file %}
+            <a href="{{ doc.file.url }}" class="btn btn-sm btn-outline-primary" target="_blank">
+              열기/다운로드
+            </a>
+          {% else %}
+            -
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="4" class="text-center">등록된 자료가 없습니다.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

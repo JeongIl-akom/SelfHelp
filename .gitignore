@@ -1,0 +1,14 @@
+# Node
+node_modules/
+
+# Python
+venv/
+.venv/
+__pycache__/
+
+# Django Secrets
+.env
+
+# Build
+dist/
+build/

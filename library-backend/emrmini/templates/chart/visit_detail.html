@@ -1,0 +1,47 @@
+{% extends "chart/base.html" %}
+
+{% block content %}
+<h2>방문 상세</h2>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ visit.patient.name }} ({{ visit.patient.chart_no }})
+    </h5>
+    <p class="card-text mb-1">내원일시: {{ visit.visit_date|date:"Y-m-d H:i" }}</p>
+    <p class="card-text mb-1">주호소: {{ visit.chief_complaint }}</p>
+    <p class="card-text mb-1">진단명: {{ visit.diagnosis }}</p>
+    <p class="card-text">메모: {{ visit.memo|linebreaksbr }}</p>
+  </div>
+</div>
+
+<h3>처방 내역</h3>
+<table class="table table-sm table-bordered bg-white">
+  <thead class="table-light">
+    <tr>
+      <th>약품명</th>
+      <th>1회량</th>
+      <th>횟수</th>
+      <th>일수</th>
+      <th>복약법/특이사항</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in prescriptions %}
+      <tr>
+        <td>{{ item.drug_name }}</td>
+        <td>{{ item.dose }}</td>
+        <td>{{ item.frequency }}</td>
+        <td>{{ item.days }}</td>
+        <td>{{ item.instruction }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="5" class="text-center">등록된 처방이 없습니다.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{% url 'chart:patient_detail' visit.patient.pk %}" class="btn btn-outline-secondary mt-2">← 환자 상세로</a>
+{% endblock %}

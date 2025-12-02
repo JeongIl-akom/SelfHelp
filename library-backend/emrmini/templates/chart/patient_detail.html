@@ -1,0 +1,41 @@
+{% extends "chart/base.html" %}
+
+{% block content %}
+<h2>환자 정보</h2>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">{{ patient.name }} ({{ patient.chart_no }})</h5>
+    <p class="card-text mb-1">성별: {{ patient.get_gender_display }}</p>
+    <p class="card-text mb-1">생년월일: {{ patient.birth_date }}</p>
+    <p class="card-text mb-1">연락처: {{ patient.phone }}</p>
+    <p class="card-text">주소: {{ patient.address }}</p>
+  </div>
+</div>
+
+<h3>방문 기록</h3>
+<table class="table table-sm table-striped bg-white">
+  <thead>
+    <tr>
+      <th>내원일시</th>
+      <th>주호소</th>
+      <th>진단명</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for v in visits %}
+      <tr onclick='location.href="{% url "chart:visit_detail" v.pk %}"' style="cursor:pointer;">
+        <td>{{ v.visit_date|date:"Y-m-d H:i" }}</td>
+        <td>{{ v.chief_complaint }}</td>
+        <td>{{ v.diagnosis }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="3" class="text-center">내원 기록이 없습니다.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{% url 'chart:patient_list' %}" class="btn btn-outline-secondary mt-2">← 환자 목록으로</a>
+{% endblock %}
