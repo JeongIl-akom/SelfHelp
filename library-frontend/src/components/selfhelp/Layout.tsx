@@ -19,7 +19,7 @@ export default function AppLayout() {
   )?.value ?? false;
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#f5f5f5" }}>
+    <Box sx={{ minHeight: "100dvh", width:"100dvw", bgcolor: "#f5f5f5", }}>
       <AppBar position="static" color="default" elevation={1}>
         <Toolbar sx={{ minHeight: 64 }}>
           <Tabs

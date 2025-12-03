@@ -1,23 +1,11 @@
-import React, { useState } from "react";
-import axios from "axios";
-
-import {
-  Container,
-  Card,
-  CardContent,
-  Stack,
-  TextField,
-  Button,
-  Typography,
-  Box,
-  Snackbar,
-  Alert,
-} from "@mui/material";
+import React, { useState } from 'react';
+import axios from 'axios';
+import mui from '../../libs/module';
 
 export default function SelfHelpUpload() {
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [category, setCategory] = useState("");
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [category, setCategory] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
@@ -25,10 +13,10 @@ export default function SelfHelpUpload() {
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
     message: string;
-    severity: "success" | "error";
-  }>({ open: false, message: "", severity: "success" });
+    severity: 'success' | 'error';
+  }>({ open: false, message: '', severity: 'success' });
 
-  const showSnackbar = (message: string, severity: "success" | "error") => {
+  const showSnackbar = (message: string, severity: 'success' | 'error') => {
     setSnackbar({ open: true, message, severity });
   };
 
@@ -44,55 +32,52 @@ export default function SelfHelpUpload() {
 
   const onSubmit = async () => {
     if (!title.trim()) {
-      showSnackbar("제목은 필수입니다.", "error");
+      showSnackbar('제목은 필수입니다.', 'error');
       return;
     }
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", desc);
-    formData.append("category", category);
-    if (image) formData.append("image", image);
-    if (file) formData.append("attach_file", file);
+    formData.append('title', title);
+    formData.append('description', desc);
+    formData.append('category', category);
+    if (image) formData.append('image', image);
+    if (file) formData.append('attach_file', file);
 
     try {
       setLoading(true);
-      await axios.post(
-        "http://127.0.0.1:8000/api/selfhelp/upload/",
-        formData
-      );
+      await axios.post('http://127.0.0.1:8000/api/selfhelp/upload/', formData);
 
-      showSnackbar("SelfHelp 항목 등록 완료 ✨", "success");
+      showSnackbar('SelfHelp 항목 등록 완료 ✨', 'success');
 
-      setTitle("");
-      setDesc("");
-      setCategory("");
+      setTitle('');
+      setDesc('');
+      setCategory('');
       setImage(null);
       setFile(null);
     } catch (err) {
       console.error(err);
-      showSnackbar("업로드 실패!", "error");
+      showSnackbar('업로드 실패!', 'error');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
-      <Card
+    <mui.Container maxWidth={false} sx={{ py: 4 }}>
+      <mui.Card
         sx={{
           borderRadius: 2,
           boxShadow: 2,
         }}
       >
-        <CardContent>
-          <Typography variant="h6" fontWeight={600} gutterBottom>
+        <mui.CardContent>
+          <mui.Typography variant="h6" fontWeight={600} gutterBottom>
             📝 게시판 항목 등록
-          </Typography>
+          </mui.Typography>
 
-          <Stack spacing={2} sx={{ mt: 1 }}>
+          <mui.Stack spacing={2} sx={{ mt: 1 }}>
             {/* 제목 */}
-            <TextField
+            <mui.TextField
               label="제목"
               placeholder="예) 접수 오류 발생 시 조치 방법"
               value={title}
@@ -102,7 +87,7 @@ export default function SelfHelpUpload() {
             />
 
             {/* 설명 */}
-            <TextField
+            <mui.TextField
               label="설명"
               placeholder="내용을 입력해주세요"
               value={desc}
@@ -113,7 +98,7 @@ export default function SelfHelpUpload() {
             />
 
             {/* 카테고리 */}
-            <TextField
+            <mui.TextField
               label="카테고리"
               placeholder="예) 접수 / 진료 / 수납 등"
               value={category}
@@ -123,12 +108,8 @@ export default function SelfHelpUpload() {
             />
 
             {/* 이미지 업로드 */}
-            <Box>
-              <Button
-                variant="outlined"
-                component="label"
-                size="small"
-              >
+            <mui.Box>
+              <mui.Button variant="outlined" component="label" size="small">
                 🖼 이미지 선택
                 <input
                   type="file"
@@ -136,64 +117,56 @@ export default function SelfHelpUpload() {
                   hidden
                   onChange={handleImageChange}
                 />
-              </Button>
+              </mui.Button>
               {image && (
-                <Typography variant="caption" sx={{ ml: 1 }}>
+                <mui.Typography variant="caption" sx={{ ml: 1 }}>
                   {image.name}
-                </Typography>
+                </mui.Typography>
               )}
-            </Box>
+            </mui.Box>
 
             {/* 첨부파일 업로드 */}
-            <Box>
-              <Button
-                variant="outlined"
-                component="label"
-                size="small"
-              >
+            <mui.Box>
+              <mui.Button variant="outlined" component="label" size="small">
                 📎 첨부파일 선택
-                <input
-                  type="file"
-                  hidden
-                  onChange={handleFileChange}
-                />
-              </Button>
+                <input type="file" hidden onChange={handleFileChange} />
+              </mui.Button>
               {file && (
-                <Typography variant="caption" sx={{ ml: 1 }}>
+                <mui.Typography variant="caption" sx={{ ml: 1 }}>
                   {file.name}
-                </Typography>
+                </mui.Typography>
               )}
-            </Box>
+            </mui.Box>
 
             {/* 등록 버튼 */}
-            <Box textAlign="right" sx={{ mt: 1 }}>
-              <Button
+            <mui.Box textAlign="right" sx={{ mt: 1 }}>
+              <mui.Button
                 variant="contained"
                 onClick={onSubmit}
                 disabled={loading}
               >
-                {loading ? "등록 중..." : "등록하기"}
-              </Button>
-            </Box>
-          </Stack>
-        </CardContent>
-      </Card>
+                {loading ? '등록 중...' : '등록하기'}
+              </mui.Button>
+            </mui.Box>
+          </mui.Stack>
+        </mui.CardContent>
+      </mui.Card>
 
       {/* MUI 스낵바 알림 */}
-      <Snackbar
+      <mui.Snackbar
         open={snackbar.open}
         autoHideDuration={2500}
         onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert
+        <mui.Alert
           severity={snackbar.severity}
           onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
-          sx={{ width: "100%" }}
+          sx={{ width: '100%' }}
         >
           {snackbar.message}
-        </Alert>
-      </Snackbar>
-    </Container>
+        </mui.Alert>
+      </mui.Snackbar>
+    </mui.Container>
   );
 }
